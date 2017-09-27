@@ -49,7 +49,8 @@ class AipBase(object):
         self.__client = session()
         self.__connectTimeout = 60.0
         self.__socketTimeout = 60.0
-        self.__version = '1_6_5'
+        self._proxies = {}
+        self.__version = '1_6_6'
 
     def getVersion(self):
         """
@@ -71,6 +72,13 @@ class AipBase(object):
 
         self.__socketTimeout = ms / 1000.0
 
+    def setProxies(self, proxies):
+        """
+            proxies
+        """
+
+        self._proxies = proxies
+
     def _request(self, url, data, headers=None):
         """
             self._request('', {})
@@ -89,7 +97,7 @@ class AipBase(object):
                             headers=headers, verify=False, timeout=(
                                 self.__connectTimeout,
                                 self.__socketTimeout,
-                            )
+                            ), proxies=self._proxies
                         )
             obj = self._proccessResult(response.content)
 
@@ -100,7 +108,7 @@ class AipBase(object):
                                 headers=headers, verify=False, timeout=(
                                     self.__connectTimeout,
                                     self.__socketTimeout,
-                                )
+                                ), proxies=self._proxies
                             )
                 obj = self._proccessResult(response.content)
         except (requests.exceptions.ReadTimeout, requests.exceptions.ConnectTimeout) as e:
@@ -156,7 +164,7 @@ class AipBase(object):
         }, timeout=(
             self.__connectTimeout,
             self.__socketTimeout,
-        )).json()
+        ), proxies=self._proxies).json()
 
         self._isCloudUser = not self._isPermission(obj)
         obj['time'] = int(time.time())

@@ -31,6 +31,10 @@ class AipImageClassify(AipBase):
 
     __logoDeleteUrl = 'https://aip.baidubce.com/rest/2.0/realtime_search/v1/logo/delete'
 
+    __animalDetectUrl = 'https://aip.baidubce.com/rest/2.0/image-classify/v1/animal'
+
+    __plantDetectUrl = 'https://aip.baidubce.com/rest/2.0/image-classify/v1/plant'
+
     __objectDetectUrl = 'https://aip.baidubce.com/rest/2.0/image-classify/v1/object_detect'
 
     
@@ -75,7 +79,7 @@ class AipImageClassify(AipBase):
     
     def logoAdd(self, image, brief, options=None):
         """
-            logo入库
+            logo商标识别—添加
         """
         options = options or {}
 
@@ -89,7 +93,7 @@ class AipImageClassify(AipBase):
     
     def logoDeleteByImage(self, image, options=None):
         """
-            删除logo
+            logo商标识别—删除
         """
         options = options or {}
 
@@ -102,7 +106,7 @@ class AipImageClassify(AipBase):
     
     def logoDeleteBySign(self, cont_sign, options=None):
         """
-            删除logo
+            logo商标识别—删除
         """
         options = options or {}
 
@@ -112,6 +116,32 @@ class AipImageClassify(AipBase):
         data = dict(data, **options)
 
         return self._request(self.__logoDeleteUrl, data)
+    
+    def animalDetect(self, image, options=None):
+        """
+            动物识别
+        """
+        options = options or {}
+
+        data = {}
+        data['image'] = base64.b64encode(image)
+
+        data = dict(data, **options)
+
+        return self._request(self.__animalDetectUrl, data)
+    
+    def plantDetect(self, image, options=None):
+        """
+            植物识别
+        """
+        options = options or {}
+
+        data = {}
+        data['image'] = base64.b64encode(image)
+
+        data = dict(data, **options)
+
+        return self._request(self.__plantDetectUrl, data)
     
     def objectDetect(self, image, options=None):
         """

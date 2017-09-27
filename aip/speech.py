@@ -31,7 +31,9 @@ class AipSpeech(AipBase):
         """
 
         token = params.get('access_token', '')
-        data['cuid'] = hashlib.md5(token.encode()).hexdigest()
+
+        if not data.get('cuid', ''):
+            data['cuid'] = hashlib.md5(token.encode()).hexdigest()
 
         if url == self.__asrUrl:
             data['token'] = token
@@ -53,7 +55,7 @@ class AipSpeech(AipBase):
             return super(AipSpeech, self)._proccessResult(content)
         except Exception as e:
             return {
-                'content': content,
+                '__json_decode_error': content,
             }
 
     def asr(self, speech=None, format='pcm', rate=16000, options=None):
@@ -89,10 +91,10 @@ class AipSpeech(AipBase):
 
         result = self._request(self.__ttsUrl, data)
 
-        if 'err_no' in result:
-            return result
+        if '__json_decode_error' in result:
+            return result['__json_decode_error']
 
-        return result['content']
+        return result
 
 
 
