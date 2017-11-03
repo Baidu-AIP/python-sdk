@@ -10,3 +10,4 @@ from .imagecensor import AipImageCensor
 from .kg import AipKg
 from .speech import AipSpeech
 from .imageclassify import AipImageClassify
+from .imagesearch import AipImageSearch

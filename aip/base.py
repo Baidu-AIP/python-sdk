@@ -50,7 +50,7 @@ class AipBase(object):
         self.__connectTimeout = 60.0
         self.__socketTimeout = 60.0
         self._proxies = {}
-        self.__version = '1_6_6'
+        self.__version = '1_6_7'
 
     def getVersion(self):
         """
@@ -242,7 +242,7 @@ class AipBase(object):
         canonicalRequest = '%s\n%s\n%s\n%s' % (
             method.upper(),
             canonicalUri,
-            urlencode(params),
+            '&'.join(sorted(urlencode(params).split('&'))),
             canonicalHeaders
         )
 
