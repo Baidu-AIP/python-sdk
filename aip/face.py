@@ -15,7 +15,7 @@ class AipFace(AipBase):
         Aip Face
     """
 
-    __detectUrl = 'https://aip.baidubce.com/rest/2.0/face/v1/detect'
+    __detectUrl = 'https://aip.baidubce.com/rest/2.0/face/v2/detect'
 
     __matchUrl = 'https://aip.baidubce.com/rest/2.0/face/v2/match'
 

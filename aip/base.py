@@ -50,7 +50,7 @@ class AipBase(object):
         self.__connectTimeout = 60.0
         self.__socketTimeout = 60.0
         self._proxies = {}
-        self.__version = '1_6_7'
+        self.__version = '1_6_8'
 
     def getVersion(self):
         """
