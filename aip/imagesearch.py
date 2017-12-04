@@ -33,6 +33,12 @@ class AipImageSearch(AipBase):
 
     __similarDeleteUrl = 'https://aip.baidubce.com/rest/2.0/image-classify/v1/realtime_search/similar/delete'
 
+    __productAddUrl = 'https://aip.baidubce.com/rest/2.0/image-classify/v1/realtime_search/product/add'
+
+    __productSearchUrl = 'https://aip.baidubce.com/rest/2.0/image-classify/v1/realtime_search/product/search'
+
+    __productDeleteUrl = 'https://aip.baidubce.com/rest/2.0/image-classify/v1/realtime_search/product/delete'
+
     
     def sameHqAdd(self, image, options=None):
         """
@@ -137,4 +143,56 @@ class AipImageSearch(AipBase):
         data = dict(data, **options)
 
         return self._request(self.__similarDeleteUrl, data)
+    
+    def productAdd(self, image, options=None):
+        """
+            商品检索—入库
+        """
+        options = options or {}
+
+        data = {}
+        data['image'] = base64.b64encode(image)
+
+        data = dict(data, **options)
+
+        return self._request(self.__productAddUrl, data)
+    
+    def productSearch(self, image, options=None):
+        """
+            商品检索—检索
+        """
+        options = options or {}
+
+        data = {}
+        data['image'] = base64.b64encode(image)
+
+        data = dict(data, **options)
+
+        return self._request(self.__productSearchUrl, data)
+    
+    def productDeleteByImage(self, image, options=None):
+        """
+            商品检索—删除
+        """
+        options = options or {}
+
+        data = {}
+        data['image'] = base64.b64encode(image)
+
+        data = dict(data, **options)
+
+        return self._request(self.__productDeleteUrl, data)
+    
+    def productDeleteBySign(self, cont_sign, options=None):
+        """
+            商品检索—删除
+        """
+        options = options or {}
+
+        data = {}
+        data['cont_sign'] = cont_sign
+
+        data = dict(data, **options)
+
+        return self._request(self.__productDeleteUrl, data)
     
