@@ -1,101 +1,117 @@
+
 # -*- coding: utf-8 -*-
 
 """
-    KG
+知识图谱
 """
+
+import re
+import sys
+import math
+import time
 from .base import AipBase
+from .base import base64
+from .base import json
+from .base import urlencode
+from .base import quote
 
 class AipKg(AipBase):
-    """
-        Aip KG
-    """
 
-    __getUserTasksUrl = 'https://aip.baidubce.com/rest/2.0/kg/v1/pie/task_query'
-
-    __getTaskInfoUrl = 'https://aip.baidubce.com/rest/2.0/kg/v1/pie/task_info'
+    """
+    知识图谱
+    """
 
     __createTaskUrl = 'https://aip.baidubce.com/rest/2.0/kg/v1/pie/task_create'
 
     __updateTaskUrl = 'https://aip.baidubce.com/rest/2.0/kg/v1/pie/task_update'
 
-    __startTaskUrl = 'https://aip.baidubce.com/rest/2.0/kg/v1/pie/task_start'
+    __taskInfoUrl = 'https://aip.baidubce.com/rest/2.0/kg/v1/pie/task_info'
 
-    __getTaskStatusUrl = 'https://aip.baidubce.com/rest/2.0/kg/v1/pie/task_status'
+    __taskQueryUrl = 'https://aip.baidubce.com/rest/2.0/kg/v1/pie/task_query'
 
+    __taskStartUrl = 'https://aip.baidubce.com/rest/2.0/kg/v1/pie/task_start'
 
-    def getUserTasks(self, options=None):
+    __taskStatusUrl = 'https://aip.baidubce.com/rest/2.0/kg/v1/pie/task_status'
+
+    
+    def createTask(self, name, template_content, input_mapping_file, output_file, url_pattern, options=None):
         """
-            getUserTasks
+            创建任务
         """
-
-        data = {}
-
-        data = dict(data, **(options or {}))
-
-        return self._request(self.__getUserTasksUrl, data)
-
-    def getTaskInfo(self, taskId):
-        """
-            getTaskInfo
-        """
-
-        data = {}
-        data['id'] = taskId
-
-        return self._request(self.__getTaskInfoUrl, data)
-
-    def createTask(
-        self,
-        name,
-        tplStr,
-        inputMapping,
-        outputFile,
-        urlPattern,
-        options=None
-    ):
-        """
-            createTask
-        """
+        options = options or {}
 
         data = {}
         data['name'] = name
-        data['template_content'] = tplStr
-        data['input_mapping_file'] = inputMapping
-        data['url_pattern'] = urlPattern
-        data['output_file'] = outputFile
+        data['template_content'] = template_content
+        data['input_mapping_file'] = input_mapping_file
+        data['output_file'] = output_file
+        data['url_pattern'] = url_pattern
 
-        data = dict(data, **(options or {}))
+        data.update(options)
 
         return self._request(self.__createTaskUrl, data)
-
-    def updateTask(self, taskId, options=None):
+    
+    def updateTask(self, id, options=None):
         """
-            updateTask
+            更新任务
         """
+        options = options or {}
 
         data = {}
-        data['id'] = taskId
+        data['id'] = id
 
-        data = dict(data, **(options or {}))
+        data.update(options)
 
         return self._request(self.__updateTaskUrl, data)
-
-    def startTask(self, taskId):
+    
+    def getTaskInfo(self, id, options=None):
         """
-            startTask
+            获取任务详情
         """
+        options = options or {}
 
         data = {}
-        data['id'] = taskId
+        data['id'] = id
 
-        return self._request(self.__startTaskUrl, data)
+        data.update(options)
 
-    def getTaskStatus(self, taskId):
+        return self._request(self.__taskInfoUrl, data)
+    
+    def getUserTasks(self, options=None):
         """
-            getTaskStatus
+            以分页的方式查询当前用户所有的任务信息
         """
+        options = options or {}
 
         data = {}
-        data['id'] = taskId
 
-        return self._request(self.__getTaskStatusUrl, data)
+        data.update(options)
+
+        return self._request(self.__taskQueryUrl, data)
+    
+    def startTask(self, id, options=None):
+        """
+            启动任务
+        """
+        options = options or {}
+
+        data = {}
+        data['id'] = id
+
+        data.update(options)
+
+        return self._request(self.__taskStartUrl, data)
+    
+    def getTaskStatus(self, id, options=None):
+        """
+            查询任务状态
+        """
+        options = options or {}
+
+        data = {}
+        data['id'] = id
+
+        data.update(options)
+
+        return self._request(self.__taskStatusUrl, data)
+    

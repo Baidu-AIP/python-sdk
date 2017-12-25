@@ -11,7 +11,6 @@ import base64
 import time
 import sys
 import requests
-from PIL import Image
 from requests import session
 requests.packages.urllib3.disable_warnings()
 
@@ -20,12 +19,10 @@ if sys.version_info.major == 2:
     from urllib import urlencode
     from urllib import quote
     from urlparse import urlparse
-    from StringIO import StringIO
 else:
     from urllib.parse import urlencode
     from urllib.parse import quote
     from urllib.parse import urlparse
-    from io import BytesIO as StringIO
 
 class AipBase(object):
     """
@@ -33,6 +30,8 @@ class AipBase(object):
     """
 
     __accessTokenUrl = 'https://aip.baidubce.com/oauth/2.0/token'
+
+    __reportUrl = 'https://aip.baidubce.com/rpc/2.0/feedback/v1/report'
 
     __scope = 'brain_all_scope'
 
@@ -50,7 +49,7 @@ class AipBase(object):
         self.__connectTimeout = 60.0
         self.__socketTimeout = 60.0
         self._proxies = {}
-        self.__version = '1_6_9'
+        self.__version = '2_0_0'
 
     def getVersion(self):
         """
@@ -261,3 +260,13 @@ class AipBase(object):
         )
 
         return headers
+
+    def report(self, feedback):
+        """
+            数据反馈
+        """
+
+        data = {}
+        data['feedback'] = feedback
+
+        return self._request(self.__reportUrl, data)

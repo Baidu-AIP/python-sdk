@@ -14,9 +14,9 @@ from .base import base64
 from .base import json
 from .base import urlencode
 from .base import quote
-from .base import StringIO
 
 class AipImageSearch(AipBase):
+
     """
     图像搜索
     """
@@ -47,9 +47,9 @@ class AipImageSearch(AipBase):
         options = options or {}
 
         data = {}
-        data['image'] = base64.b64encode(image)
+        data['image'] = base64.b64encode(image).decode()
 
-        data = dict(data, **options)
+        data.update(options)
 
         return self._request(self.__sameHqAddUrl, data)
     
@@ -60,9 +60,9 @@ class AipImageSearch(AipBase):
         options = options or {}
 
         data = {}
-        data['image'] = base64.b64encode(image)
+        data['image'] = base64.b64encode(image).decode()
 
-        data = dict(data, **options)
+        data.update(options)
 
         return self._request(self.__sameHqSearchUrl, data)
     
@@ -73,9 +73,9 @@ class AipImageSearch(AipBase):
         options = options or {}
 
         data = {}
-        data['image'] = base64.b64encode(image)
+        data['image'] = base64.b64encode(image).decode()
 
-        data = dict(data, **options)
+        data.update(options)
 
         return self._request(self.__sameHqDeleteUrl, data)
     
@@ -88,7 +88,7 @@ class AipImageSearch(AipBase):
         data = {}
         data['cont_sign'] = cont_sign
 
-        data = dict(data, **options)
+        data.update(options)
 
         return self._request(self.__sameHqDeleteUrl, data)
     
@@ -99,9 +99,9 @@ class AipImageSearch(AipBase):
         options = options or {}
 
         data = {}
-        data['image'] = base64.b64encode(image)
+        data['image'] = base64.b64encode(image).decode()
 
-        data = dict(data, **options)
+        data.update(options)
 
         return self._request(self.__similarAddUrl, data)
     
@@ -112,9 +112,9 @@ class AipImageSearch(AipBase):
         options = options or {}
 
         data = {}
-        data['image'] = base64.b64encode(image)
+        data['image'] = base64.b64encode(image).decode()
 
-        data = dict(data, **options)
+        data.update(options)
 
         return self._request(self.__similarSearchUrl, data)
     
@@ -125,9 +125,9 @@ class AipImageSearch(AipBase):
         options = options or {}
 
         data = {}
-        data['image'] = base64.b64encode(image)
+        data['image'] = base64.b64encode(image).decode()
 
-        data = dict(data, **options)
+        data.update(options)
 
         return self._request(self.__similarDeleteUrl, data)
     
@@ -140,7 +140,7 @@ class AipImageSearch(AipBase):
         data = {}
         data['cont_sign'] = cont_sign
 
-        data = dict(data, **options)
+        data.update(options)
 
         return self._request(self.__similarDeleteUrl, data)
     
@@ -151,9 +151,9 @@ class AipImageSearch(AipBase):
         options = options or {}
 
         data = {}
-        data['image'] = base64.b64encode(image)
+        data['image'] = base64.b64encode(image).decode()
 
-        data = dict(data, **options)
+        data.update(options)
 
         return self._request(self.__productAddUrl, data)
     
@@ -164,9 +164,9 @@ class AipImageSearch(AipBase):
         options = options or {}
 
         data = {}
-        data['image'] = base64.b64encode(image)
+        data['image'] = base64.b64encode(image).decode()
 
-        data = dict(data, **options)
+        data.update(options)
 
         return self._request(self.__productSearchUrl, data)
     
@@ -177,9 +177,9 @@ class AipImageSearch(AipBase):
         options = options or {}
 
         data = {}
-        data['image'] = base64.b64encode(image)
+        data['image'] = base64.b64encode(image).decode()
 
-        data = dict(data, **options)
+        data.update(options)
 
         return self._request(self.__productDeleteUrl, data)
     
@@ -192,7 +192,7 @@ class AipImageSearch(AipBase):
         data = {}
         data['cont_sign'] = cont_sign
 
-        data = dict(data, **options)
+        data.update(options)
 
         return self._request(self.__productDeleteUrl, data)
     

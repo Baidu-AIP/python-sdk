@@ -1,4 +1,9 @@
+
 # -*- coding: utf-8 -*-
+
+"""
+图像识别
+"""
 
 import re
 import sys
@@ -9,220 +14,292 @@ from .base import base64
 from .base import json
 from .base import urlencode
 from .base import quote
-from .base import Image
-from .base import StringIO
 
 class AipOcr(AipBase):
+
     """
-        Aip OCR
+    图像识别
     """
 
-    __idcardUrl = 'https://aip.baidubce.com/rest/2.0/ocr/v1/idcard'
-    
-    __bankcardUrl = 'https://aip.baidubce.com/rest/2.0/ocr/v1/bankcard'
-    
+    __generalBasicUrl = 'https://aip.baidubce.com/rest/2.0/ocr/v1/general_basic'
+
+    __accurateBasicUrl = 'https://aip.baidubce.com/rest/2.0/ocr/v1/accurate_basic'
+
     __generalUrl = 'https://aip.baidubce.com/rest/2.0/ocr/v1/general'
 
-    __basicGeneralUrl = 'https://aip.baidubce.com/rest/2.0/ocr/v1/general_basic'
+    __accurateUrl = 'https://aip.baidubce.com/rest/2.0/ocr/v1/accurate'
+
+    __generalEnhancedUrl = 'https://aip.baidubce.com/rest/2.0/ocr/v1/general_enhanced'
 
     __webImageUrl = 'https://aip.baidubce.com/rest/2.0/ocr/v1/webimage'
 
-    __enhancedGeneralUrl = 'https://aip.baidubce.com/rest/2.0/ocr/v1/general_enhanced'
+    __idcardUrl = 'https://aip.baidubce.com/rest/2.0/ocr/v1/idcard'
+
+    __bankcardUrl = 'https://aip.baidubce.com/rest/2.0/ocr/v1/bankcard'
 
     __drivingLicenseUrl = 'https://aip.baidubce.com/rest/2.0/ocr/v1/driving_license'
 
     __vehicleLicenseUrl = 'https://aip.baidubce.com/rest/2.0/ocr/v1/vehicle_license'
 
-    __tableRequestUrl = 'https://aip.baidubce.com/rest/2.0/solution/v1/form_ocr/request'
-    
-    __tableResultUrl = 'https://aip.baidubce.com/rest/2.0/solution/v1/form_ocr/get_request_result'
-
     __licensePlateUrl = 'https://aip.baidubce.com/rest/2.0/ocr/v1/license_plate'
 
-    __accurateUrl = 'https://aip.baidubce.com/rest/2.0/ocr/v1/accurate'
-
-    __basicAccurateUrl = 'https://aip.baidubce.com/rest/2.0/ocr/v1/accurate_basic'
+    __businessLicenseUrl = 'https://aip.baidubce.com/rest/2.0/ocr/v1/business_license'
 
     __receiptUrl = 'https://aip.baidubce.com/rest/2.0/ocr/v1/receipt'
 
-    __businessLicenseUrl = 'https://aip.baidubce.com/rest/2.0/ocr/v1/business_license'
+    __tableRecognizeUrl = 'https://aip.baidubce.com/rest/2.0/solution/v1/form_ocr/request'
+
+    __tableResultGetUrl = 'https://aip.baidubce.com/rest/2.0/solution/v1/form_ocr/get_request_result'
+
     
-    def idcard(self, image, isFront, options=None):
-        """
-            idcard ocr
-        """
-
-        options = options or {}
-        data = {}
-        data['image'] = image
-        data['id_card_side'] = isFront and 'front' or 'back'
-
-        data = dict(data, **options)
-
-        return self._request(self.__idcardUrl, data)
-
-    def bankcard(self, image):
-        """
-            bankcard ocr
-        """
-        
-        data = {}
-        data['image'] = image
-
-        return self._request(self.__bankcardUrl, data)
-
-    def general(self, image, options=None):
-        """
-            general ocr
-        """
-
-        options = options or {}
-        data = {}
-        data['image'] = image
-
-        data = dict(data, **options)
-
-        return self._request(self.__generalUrl, data)
-
     def basicGeneral(self, image, options=None):
         """
-            basic general ocr
+            通用文字识别
         """
-
         options = options or {}
+
         data = {}
-        data['image'] = image
+        data['image'] = base64.b64encode(image).decode()
 
-        data = dict(data, **options)
+        data.update(options)
 
-        return self._request(self.__basicGeneralUrl, data)
-
-    def webImage(self, image, options=None):
+        return self._request(self.__generalBasicUrl, data)
+    
+    def basicGeneralUrl(self, url, options=None):
         """
-            web image ocr
+            通用文字识别
         """
-
         options = options or {}
+
         data = {}
-        data['image'] = image
+        data['url'] = url
 
-        data = dict(data, **options)
+        data.update(options)
 
-        return self._request(self.__webImageUrl, data)
+        return self._request(self.__generalBasicUrl, data)
+    
+    def basicAccurate(self, image, options=None):
+        """
+            通用文字识别（高精度版）
+        """
+        options = options or {}
 
+        data = {}
+        data['image'] = base64.b64encode(image).decode()
+
+        data.update(options)
+
+        return self._request(self.__accurateBasicUrl, data)
+    
+    def general(self, image, options=None):
+        """
+            通用文字识别（含位置信息版）
+        """
+        options = options or {}
+
+        data = {}
+        data['image'] = base64.b64encode(image).decode()
+
+        data.update(options)
+
+        return self._request(self.__generalUrl, data)
+    
+    def generalUrl(self, url, options=None):
+        """
+            通用文字识别（含位置信息版）
+        """
+        options = options or {}
+
+        data = {}
+        data['url'] = url
+
+        data.update(options)
+
+        return self._request(self.__generalUrl, data)
+    
+    def accurate(self, image, options=None):
+        """
+            通用文字识别（含位置高精度版）
+        """
+        options = options or {}
+
+        data = {}
+        data['image'] = base64.b64encode(image).decode()
+
+        data.update(options)
+
+        return self._request(self.__accurateUrl, data)
+    
     def enhancedGeneral(self, image, options=None):
         """
-            enhanced general ocr
+            通用文字识别（含生僻字版）
         """
-
         options = options or {}
+
         data = {}
-        data['image'] = image
+        data['image'] = base64.b64encode(image).decode()
 
-        data = dict(data, **options)
+        data.update(options)
 
-        return self._request(self.__enhancedGeneralUrl, data)
-
-    def vehicleLicense(self, image, options=None):
+        return self._request(self.__generalEnhancedUrl, data)
+    
+    def enhancedGeneralUrl(self, url, options=None):
         """
-            vehicleLicense
+            通用文字识别（含生僻字版）
         """
-
         options = options or {}
-        
+
         data = {}
-        data['image'] = image
+        data['url'] = url
 
-        data = dict(data, **options)
+        data.update(options)
 
-        return self._request(self.__vehicleLicenseUrl, data)
+        return self._request(self.__generalEnhancedUrl, data)
+    
+    def webImage(self, image, options=None):
+        """
+            网络图片文字识别
+        """
+        options = options or {}
 
+        data = {}
+        data['image'] = base64.b64encode(image).decode()
+
+        data.update(options)
+
+        return self._request(self.__webImageUrl, data)
+    
+    def webImageUrl(self, url, options=None):
+        """
+            网络图片文字识别
+        """
+        options = options or {}
+
+        data = {}
+        data['url'] = url
+
+        data.update(options)
+
+        return self._request(self.__webImageUrl, data)
+    
+    def idcard(self, image, id_card_side, options=None):
+        """
+            身份证识别
+        """
+        options = options or {}
+
+        data = {}
+        data['image'] = base64.b64encode(image).decode()
+        data['id_card_side'] = id_card_side
+
+        data.update(options)
+
+        return self._request(self.__idcardUrl, data)
+    
+    def bankcard(self, image, options=None):
+        """
+            银行卡识别
+        """
+        options = options or {}
+
+        data = {}
+        data['image'] = base64.b64encode(image).decode()
+
+        data.update(options)
+
+        return self._request(self.__bankcardUrl, data)
+    
     def drivingLicense(self, image, options=None):
         """
-            drivingLicense
+            驾驶证识别
         """
-
         options = options or {}
-        
-        data = {}
-        data['image'] = image
 
-        data = dict(data, **options)
+        data = {}
+        data['image'] = base64.b64encode(image).decode()
+
+        data.update(options)
 
         return self._request(self.__drivingLicenseUrl, data)
-
-    def _validate(self, url, data):
+    
+    def vehicleLicense(self, image, options=None):
         """
-            validate
+            行驶证识别
         """
+        options = options or {}
 
-        if url == self.__tableResultUrl:
-            return True
+        data = {}
+        data['image'] = base64.b64encode(image).decode()
 
-        # 支持url
-        if re.match(r'^\w{1,128}://', str(data['image'])):
-            data['url'] = data['image']
-            del data['image']
-            return True
+        data.update(options)
 
-        img = Image.open(StringIO(data['image']))
+        return self._request(self.__vehicleLicenseUrl, data)
+    
+    def licensePlate(self, image, options=None):
+        """
+            车牌识别
+        """
+        options = options or {}
 
-        format = img.format.upper()
-        width, height = img.size
+        data = {}
+        data['image'] = base64.b64encode(image).decode()
 
-        # 图片格式检查
-        if format not in ['JPEG', 'BMP', 'PNG']:
-            return {
-                'error_code': 'SDK109',
-                'error_msg': 'unsupported image format',
-            }
+        data.update(options)
 
-        # 图片大小检查
-        if width < 15 or width > 4096 or height < 15 or height > 4096:
-            return {
-                'error_code': 'SDK101',
-                'error_msg': 'image length error',
-            }
+        return self._request(self.__licensePlateUrl, data)
+    
+    def businessLicense(self, image, options=None):
+        """
+            营业执照识别
+        """
+        options = options or {}
 
-        data['image'] = base64.b64encode(data['image'])
+        data = {}
+        data['image'] = base64.b64encode(image).decode()
 
-        # 编码后小于4m
-        if len(data['image']) >= 4 * 1024 * 1024:
-            return {
-                'error_code': 'SDK100',
-                'error_msg': 'image size error',
-            }
+        data.update(options)
 
-        return True
+        return self._request(self.__businessLicenseUrl, data)
+    
+    def receipt(self, image, options=None):
+        """
+            通用票据识别
+        """
+        options = options or {}
 
+        data = {}
+        data['image'] = base64.b64encode(image).decode()
+
+        data.update(options)
+
+        return self._request(self.__receiptUrl, data)
+    
     def tableRecognitionAsync(self, image, options=None):
         """
-            tableRecognitionAsync
+            表格文字识别
         """
-
         options = options or {}
-        
+
         data = {}
-        data['image'] = image
+        data['image'] = base64.b64encode(image).decode()
 
-        data = dict(data, **options)
+        data.update(options)
 
-        return self._request(self.__tableRequestUrl, data)
-
-    def getTableRecognitionResult(self, requestId, options=None):
+        return self._request(self.__tableRecognizeUrl, data)
+    
+    def getTableRecognitionResult(self, request_id, options=None):
         """
-            getTableRecognitionResult
+            表格识别结果
         """
-
         options = options or {}
-        
+
         data = {}
-        data['request_id'] = requestId
+        data['request_id'] = request_id
 
-        data = dict(data, **options)
+        data.update(options)
 
-        return self._request(self.__tableResultUrl, data)
-
+        return self._request(self.__tableResultGetUrl, data)
+    
     def tableRecognition(self, image, options=None, timeout=10000):
         """
             tableRecognition
@@ -232,81 +309,14 @@ class AipOcr(AipBase):
 
         if 'error_code' in result:
             return result
-
+        
         requestId = result['result'][0]['request_id']
         for i in range(int(math.ceil(timeout / 1000.0))):
-
             result = self.getTableRecognitionResult(requestId, options)
-
+            
             # 完成
             if int(result['result']['ret_code']) == 3: 
                 break
             time.sleep(1)
 
         return result
-
-    def licensePlate(self, image, options=None):
-        """
-            licensePlate
-        """
-
-        options = options or {}
-        
-        data = {}
-        data['image'] = image
-
-        data = dict(data, **options)
-
-        return self._request(self.__licensePlateUrl, data)
-
-    def accurate(self, image, options=None):
-        """
-            accurate ocr
-        """
-
-        options = options or {}
-        data = {}
-        data['image'] = image
-
-        data = dict(data, **options)
-
-        return self._request(self.__accurateUrl, data)
-
-    def basicAccurate(self, image, options=None):
-        """
-            basic accurate ocr
-        """
-
-        options = options or {}
-        data = {}
-        data['image'] = image
-
-        data = dict(data, **options)
-
-        return self._request(self.__basicAccurateUrl, data)
-
-    def receipt(self, image, options=None):
-        """
-            receipt ocr
-        """
-
-        options = options or {}
-        data = {}
-        data['image'] = image
-
-        data = dict(data, **options)
-
-        return self._request(self.__receiptUrl, data)
-
-    def businessLicense(self, image, options=None):
-        """
-            businessLicense ocr
-        """
-
-        options = options or {}
-        data = {}
-        data['image'] = image
-
-        data = dict(data, **options)
-
-        return self._request(self.__businessLicenseUrl, data)

@@ -1,40 +1,43 @@
+
 # -*- coding: utf-8 -*-
+
+"""
+自然语言处理
+"""
 
 import re
 import sys
+import math
+import time
 from .base import AipBase
 from .base import base64
 from .base import json
 from .base import urlencode
 from .base import quote
-from .base import Image
-from .base import StringIO
 
 class AipNlp(AipBase):
+
     """
-        Aip NLP
+    自然语言处理
     """
 
-    __wordsegUrl = 'https://aip.baidubce.com/rpc/2.0/nlp/v1/wordseg'
+    __lexerUrl = 'https://aip.baidubce.com/rpc/2.0/nlp/v1/lexer'
 
-    __wordposUrl = 'https://aip.baidubce.com/rpc/2.0/nlp/v1/wordpos'
+    __lexerCustomUrl = 'https://aip.baidubce.com/rpc/2.0/nlp/v1/lexer_custom'
+
+    __depParserUrl = 'https://aip.baidubce.com/rpc/2.0/nlp/v1/depparser'
 
     __wordEmbeddingUrl = 'https://aip.baidubce.com/rpc/2.0/nlp/v2/word_emb_vec'
 
-    __wordSimEmbeddingUrl = 'https://aip.baidubce.com/rpc/2.0/nlp/v2/word_emb_sim'
+    __dnnlmCnUrl = 'https://aip.baidubce.com/rpc/2.0/nlp/v2/dnnlm_cn'
 
-    __dnnlmUrl = 'https://aip.baidubce.com/rpc/2.0/nlp/v2/dnnlm_cn'
+    __wordSimEmbeddingUrl = 'https://aip.baidubce.com/rpc/2.0/nlp/v2/word_emb_sim'
 
     __simnetUrl = 'https://aip.baidubce.com/rpc/2.0/nlp/v2/simnet'
 
     __commentTagUrl = 'https://aip.baidubce.com/rpc/2.0/nlp/v2/comment_tag'
 
-    __lexerUrl = 'https://aip.baidubce.com/rpc/2.0/nlp/v1/lexer'
-
     __sentimentClassifyUrl = 'https://aip.baidubce.com/rpc/2.0/nlp/v1/sentiment_classify'
-
-    __depParserUrl = 'https://aip.baidubce.com/rpc/2.0/nlp/v1/depparser'
-
 
     def _proccessResult(self, content):
         """
@@ -56,131 +59,122 @@ class AipNlp(AipBase):
         else:
             return json.dumps(data, ensure_ascii=False).encode('gbk')
     
-    def wordseg(self, query, options=None):
+    def lexer(self, text, options=None):
         """
-            Aip wordseg
+            词法分析
         """
+        options = options or {}
 
         data = {}
-        data['query'] = query
+        data['text'] = text
 
+        data.update(options)
+
+        return self._request(self.__lexerUrl, data)
+    
+    def lexerCustom(self, text, options=None):
+        """
+            词法分析（定制版）
+        """
         options = options or {}
-        data = dict(data, **options)
-
-        return self._request(self.__wordsegUrl, data)
-
-    def wordpos(self, query, options=None):
-        """
-            Aip wordpos
-        """
 
         data = {}
-        data['query'] = query
+        data['text'] = text
 
+        data.update(options)
+
+        return self._request(self.__lexerCustomUrl, data)
+    
+    def depParser(self, text, options=None):
+        """
+            依存句法分析
+        """
         options = options or {}
-        data = dict(data, **options)
 
-        return self._request(self.__wordposUrl, data)
+        data = {}
+        data['text'] = text
 
+        data.update(options)
+
+        return self._request(self.__depParserUrl, data)
+    
     def wordEmbedding(self, word, options=None):
         """
-            Aip wordEmbedding
+            词向量表示
         """
+        options = options or {}
 
         data = {}
         data['word'] = word
 
-        options = options or {}
-        data = dict(data, **options)
+        data.update(options)
 
         return self._request(self.__wordEmbeddingUrl, data)
-
-    def wordSimEmbedding(self, word1, word2, options=None):
-        """
-            Aip wordSimEmbedding
-        """
-
-        data = {}
-        data['word_1'] = word1
-        data['word_2'] = word2
-
-        options = options or {}
-        data = dict(data, **options)
-
-        return self._request(self.__wordSimEmbeddingUrl, data)
-
+    
     def dnnlm(self, text, options=None):
         """
-            Aip dnnlm
+            DNN语言模型
         """
+        options = options or {}
 
         data = {}
         data['text'] = text
 
+        data.update(options)
+
+        return self._request(self.__dnnlmCnUrl, data)
+    
+    def wordSimEmbedding(self, word_1, word_2, options=None):
+        """
+            词义相似度
+        """
         options = options or {}
-        data = dict(data, **options)
-
-        return self._request(self.__dnnlmUrl, data)
-
-    def simnet(self, text1, text2, options=None):
-        """
-            Aip simnet
-        """
 
         data = {}
-        data['text_1'] = text1 
-        data['text_2'] = text2 
+        data['word_1'] = word_1
+        data['word_2'] = word_2
 
+        data.update(options)
+
+        return self._request(self.__wordSimEmbeddingUrl, data)
+    
+    def simnet(self, text_1, text_2, options=None):
+        """
+            短文本相似度
+        """
         options = options or {}
-        data = dict(data, **options)
+
+        data = {}
+        data['text_1'] = text_1
+        data['text_2'] = text_2
+
+        data.update(options)
 
         return self._request(self.__simnetUrl, data)
-
+    
     def commentTag(self, text, options=None):
         """
-            Aip commentTag
+            评论观点抽取
         """
+        options = options or {}
 
         data = {}
         data['text'] = text
 
-        options = options or {}
-        data = dict(data, **options)
+        data.update(options)
 
         return self._request(self.__commentTagUrl, data)
-
-    def lexer(self, text):
-        """
-            Aip lexer
-        """
-
-        data = {}
-        data['text'] = text
-
-        return self._request(self.__lexerUrl, data)
-
+    
     def sentimentClassify(self, text, options=None):
         """
-            Aip sentimentClassify
+            情感倾向分析
         """
+        options = options or {}
 
         data = {}
         data['text'] = text
 
-        options = options or {}
-        data = dict(data, **options)
+        data.update(options)
 
         return self._request(self.__sentimentClassifyUrl, data)
-
-    def depParser(self, text, options=None):
-        """
-            Aip depParser
-        """
-
-        data = {}
-        data['text'] = text
-
-        options = options or {}
-        data = dict(data, **options)
-
-        return self._request(self.__depParserUrl, data)
+    

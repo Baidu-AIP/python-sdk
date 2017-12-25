@@ -14,9 +14,9 @@ from .base import base64
 from .base import json
 from .base import urlencode
 from .base import quote
-from .base import StringIO
 
 class AipImageClassify(AipBase):
+
     """
     图像识别
     """
@@ -45,9 +45,9 @@ class AipImageClassify(AipBase):
         options = options or {}
 
         data = {}
-        data['image'] = base64.b64encode(image)
+        data['image'] = base64.b64encode(image).decode()
 
-        data = dict(data, **options)
+        data.update(options)
 
         return self._request(self.__dishDetectUrl, data)
     
@@ -58,9 +58,9 @@ class AipImageClassify(AipBase):
         options = options or {}
 
         data = {}
-        data['image'] = base64.b64encode(image)
+        data['image'] = base64.b64encode(image).decode()
 
-        data = dict(data, **options)
+        data.update(options)
 
         return self._request(self.__carDetectUrl, data)
     
@@ -71,9 +71,9 @@ class AipImageClassify(AipBase):
         options = options or {}
 
         data = {}
-        data['image'] = base64.b64encode(image)
+        data['image'] = base64.b64encode(image).decode()
 
-        data = dict(data, **options)
+        data.update(options)
 
         return self._request(self.__logoSearchUrl, data)
     
@@ -84,10 +84,10 @@ class AipImageClassify(AipBase):
         options = options or {}
 
         data = {}
-        data['image'] = base64.b64encode(image)
+        data['image'] = base64.b64encode(image).decode()
         data['brief'] = brief
 
-        data = dict(data, **options)
+        data.update(options)
 
         return self._request(self.__logoAddUrl, data)
     
@@ -98,9 +98,9 @@ class AipImageClassify(AipBase):
         options = options or {}
 
         data = {}
-        data['image'] = base64.b64encode(image)
+        data['image'] = base64.b64encode(image).decode()
 
-        data = dict(data, **options)
+        data.update(options)
 
         return self._request(self.__logoDeleteUrl, data)
     
@@ -113,7 +113,7 @@ class AipImageClassify(AipBase):
         data = {}
         data['cont_sign'] = cont_sign
 
-        data = dict(data, **options)
+        data.update(options)
 
         return self._request(self.__logoDeleteUrl, data)
     
@@ -124,9 +124,9 @@ class AipImageClassify(AipBase):
         options = options or {}
 
         data = {}
-        data['image'] = base64.b64encode(image)
+        data['image'] = base64.b64encode(image).decode()
 
-        data = dict(data, **options)
+        data.update(options)
 
         return self._request(self.__animalDetectUrl, data)
     
@@ -137,9 +137,9 @@ class AipImageClassify(AipBase):
         options = options or {}
 
         data = {}
-        data['image'] = base64.b64encode(image)
+        data['image'] = base64.b64encode(image).decode()
 
-        data = dict(data, **options)
+        data.update(options)
 
         return self._request(self.__plantDetectUrl, data)
     
@@ -150,9 +150,9 @@ class AipImageClassify(AipBase):
         options = options or {}
 
         data = {}
-        data['image'] = base64.b64encode(image)
+        data['image'] = base64.b64encode(image).decode()
 
-        data = dict(data, **options)
+        data.update(options)
 
         return self._request(self.__objectDetectUrl, data)
     
