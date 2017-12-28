@@ -11,7 +11,6 @@ import base64
 import time
 import sys
 import requests
-from requests import session
 requests.packages.urllib3.disable_warnings()
 
 
@@ -45,7 +44,7 @@ class AipBase(object):
         self._secretKey = secretKey.strip()
         self._authObj = {}
         self._isCloudUser = None
-        self.__client = session()
+        self.__client = requests
         self.__connectTimeout = 60.0
         self.__socketTimeout = 60.0
         self._proxies = {}
