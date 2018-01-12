@@ -39,6 +39,8 @@ class AipNlp(AipBase):
 
     __sentimentClassifyUrl = 'https://aip.baidubce.com/rpc/2.0/nlp/v1/sentiment_classify'
 
+    __keywordUrl = 'https://aip.baidubce.com/rpc/2.0/nlp/v1/keyword'
+
     def _proccessResult(self, content):
         """
             formate result
@@ -177,4 +179,18 @@ class AipNlp(AipBase):
         data.update(options)
 
         return self._request(self.__sentimentClassifyUrl, data)
+    
+    def keyword(self, title, content, options=None):
+        """
+            文本标签
+        """
+        options = options or {}
+
+        data = {}
+        data['title'] = title
+        data['content'] = content
+
+        data.update(options)
+
+        return self._request(self.__keywordUrl, data)
     

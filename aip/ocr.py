@@ -47,6 +47,8 @@ class AipOcr(AipBase):
 
     __receiptUrl = 'https://aip.baidubce.com/rest/2.0/ocr/v1/receipt'
 
+    __customUrl = 'https://aip.baidubce.com/rest/2.0/solution/v1/iocr/recognise'
+
     __tableRecognizeUrl = 'https://aip.baidubce.com/rest/2.0/solution/v1/form_ocr/request'
 
     __tableResultGetUrl = 'https://aip.baidubce.com/rest/2.0/solution/v1/form_ocr/get_request_result'
@@ -273,6 +275,20 @@ class AipOcr(AipBase):
         data.update(options)
 
         return self._request(self.__receiptUrl, data)
+    
+    def custom(self, image, templateSign, options=None):
+        """
+            自定义模版文字识别
+        """
+        options = options or {}
+
+        data = {}
+        data['image'] = base64.b64encode(image).decode()
+        data['templateSign'] = templateSign
+
+        data.update(options)
+
+        return self._request(self.__customUrl, data)
     
     def tableRecognitionAsync(self, image, options=None):
         """

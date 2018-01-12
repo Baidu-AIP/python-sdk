@@ -29,6 +29,8 @@ class AipFace(AipBase):
 
     __verifyUrl = 'https://aip.baidubce.com/rest/2.0/face/v2/verify'
 
+    __multiIdentifyUrl = 'https://aip.baidubce.com/rest/2.0/face/v2/multi-identify'
+
     __userAddUrl = 'https://aip.baidubce.com/rest/2.0/face/v2/faceset/user/add'
 
     __userUpdateUrl = 'https://aip.baidubce.com/rest/2.0/face/v2/faceset/user/update'
@@ -102,6 +104,20 @@ class AipFace(AipBase):
         data.update(options)
 
         return self._request(self.__verifyUrl, data)
+    
+    def multiIdentify(self, group_id, image, options=None):
+        """
+            M:N 识别
+        """
+        options = options or {}
+
+        data = {}
+        data['group_id'] = group_id
+        data['image'] = base64.b64encode(image).decode()
+
+        data.update(options)
+
+        return self._request(self.__multiIdentifyUrl, data)
     
     def addUser(self, uid, user_info, group_id, image, options=None):
         """
