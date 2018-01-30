@@ -41,6 +41,8 @@ class AipNlp(AipBase):
 
     __keywordUrl = 'https://aip.baidubce.com/rpc/2.0/nlp/v1/keyword'
 
+    __topicUrl = 'https://aip.baidubce.com/rpc/2.0/nlp/v1/topic'
+
     def _proccessResult(self, content):
         """
             formate result
@@ -182,7 +184,7 @@ class AipNlp(AipBase):
     
     def keyword(self, title, content, options=None):
         """
-            文本标签
+            文章标签
         """
         options = options or {}
 
@@ -193,4 +195,18 @@ class AipNlp(AipBase):
         data.update(options)
 
         return self._request(self.__keywordUrl, data)
+    
+    def topic(self, title, content, options=None):
+        """
+            文章分类
+        """
+        options = options or {}
+
+        data = {}
+        data['title'] = title
+        data['content'] = content
+
+        data.update(options)
+
+        return self._request(self.__topicUrl, data)
     
