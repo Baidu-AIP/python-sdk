@@ -47,6 +47,10 @@ class AipFace(AipBase):
 
     __groupDeleteuserUrl = 'https://aip.baidubce.com/rest/2.0/face/v2/faceset/group/deleteuser'
 
+    __personVerifyUrl = 'https://aip.baidubce.com/rest/2.0/face/v2/person/verify'
+
+    __faceverifyUrl = 'https://aip.baidubce.com/rest/2.0/face/v2/faceverify'
+
     
     def detect(self, image, options=None):
         """
@@ -230,4 +234,32 @@ class AipFace(AipBase):
         data.update(options)
 
         return self._request(self.__groupDeleteuserUrl, data)
+    
+    def personVerify(self, image, id_card_number, name, options=None):
+        """
+            身份验证
+        """
+        options = options or {}
+
+        data = {}
+        data['image'] = base64.b64encode(image).decode()
+        data['id_card_number'] = id_card_number
+        data['name'] = name
+
+        data.update(options)
+
+        return self._request(self.__personVerifyUrl, data)
+    
+    def faceverify(self, image, options=None):
+        """
+            在线活体检测
+        """
+        options = options or {}
+
+        data = {}
+        data['image'] = base64.b64encode(image).decode()
+
+        data.update(options)
+
+        return self._request(self.__faceverifyUrl, data)
     

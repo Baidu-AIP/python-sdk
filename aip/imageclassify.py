@@ -21,6 +21,8 @@ class AipImageClassify(AipBase):
     图像识别
     """
 
+    __advancedGeneralUrl = 'https://aip.baidubce.com/rest/2.0/image-classify/v2/advanced_general'
+
     __dishDetectUrl = 'https://aip.baidubce.com/rest/2.0/image-classify/v2/dish'
 
     __carDetectUrl = 'https://aip.baidubce.com/rest/2.0/image-classify/v1/car'
@@ -37,6 +39,19 @@ class AipImageClassify(AipBase):
 
     __objectDetectUrl = 'https://aip.baidubce.com/rest/2.0/image-classify/v1/object_detect'
 
+    
+    def advancedGeneral(self, image, options=None):
+        """
+            通用物体识别
+        """
+        options = options or {}
+
+        data = {}
+        data['image'] = base64.b64encode(image).decode()
+
+        data.update(options)
+
+        return self._request(self.__advancedGeneralUrl, data)
     
     def dishDetect(self, image, options=None):
         """

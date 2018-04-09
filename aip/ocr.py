@@ -49,6 +49,8 @@ class AipOcr(AipBase):
 
     __customUrl = 'https://aip.baidubce.com/rest/2.0/solution/v1/iocr/recognise'
 
+    __formUrl = 'https://aip.baidubce.com/rest/2.0/ocr/v1/form'
+
     __tableRecognizeUrl = 'https://aip.baidubce.com/rest/2.0/solution/v1/form_ocr/request'
 
     __tableResultGetUrl = 'https://aip.baidubce.com/rest/2.0/solution/v1/form_ocr/get_request_result'
@@ -289,6 +291,19 @@ class AipOcr(AipBase):
         data.update(options)
 
         return self._request(self.__customUrl, data)
+    
+    def form(self, image, options=None):
+        """
+            表格文字识别同步接口
+        """
+        options = options or {}
+
+        data = {}
+        data['image'] = base64.b64encode(image).decode()
+
+        data.update(options)
+
+        return self._request(self.__formUrl, data)
     
     def tableRecognitionAsync(self, image, options=None):
         """
