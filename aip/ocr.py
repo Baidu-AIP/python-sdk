@@ -47,13 +47,27 @@ class AipOcr(AipBase):
 
     __receiptUrl = 'https://aip.baidubce.com/rest/2.0/ocr/v1/receipt'
 
-    __customUrl = 'https://aip.baidubce.com/rest/2.0/solution/v1/iocr/recognise'
-
     __formUrl = 'https://aip.baidubce.com/rest/2.0/ocr/v1/form'
 
     __tableRecognizeUrl = 'https://aip.baidubce.com/rest/2.0/solution/v1/form_ocr/request'
 
     __tableResultGetUrl = 'https://aip.baidubce.com/rest/2.0/solution/v1/form_ocr/get_request_result'
+
+    __vatInvoiceUrl = 'https://aip.baidubce.com/rest/2.0/ocr/v1/vat_invoice'
+
+    __qrcodeUrl = 'https://aip.baidubce.com/rest/2.0/ocr/v1/qrcode'
+
+    __numbersUrl = 'https://aip.baidubce.com/rest/2.0/ocr/v1/numbers'
+
+    __lotteryUrl = 'https://aip.baidubce.com/rest/2.0/ocr/v1/lottery'
+
+    __passportUrl = 'https://aip.baidubce.com/rest/2.0/ocr/v1/passport'
+
+    __businessCardUrl = 'https://aip.baidubce.com/rest/2.0/ocr/v1/business_card'
+
+    __handwritingUrl = 'https://aip.baidubce.com/rest/2.0/ocr/v1/handwriting'
+
+    __customUrl = 'https://aip.baidubce.com/rest/2.0/solution/v1/iocr/recognise'
 
     
     def basicGeneral(self, image, options=None):
@@ -278,20 +292,6 @@ class AipOcr(AipBase):
 
         return self._request(self.__receiptUrl, data)
     
-    def custom(self, image, templateSign, options=None):
-        """
-            自定义模版文字识别
-        """
-        options = options or {}
-
-        data = {}
-        data['image'] = base64.b64encode(image).decode()
-        data['templateSign'] = templateSign
-
-        data.update(options)
-
-        return self._request(self.__customUrl, data)
-    
     def form(self, image, options=None):
         """
             表格文字识别同步接口
@@ -330,6 +330,111 @@ class AipOcr(AipBase):
         data.update(options)
 
         return self._request(self.__tableResultGetUrl, data)
+    
+    def vatInvoice(self, image, options=None):
+        """
+            增值税发票识别
+        """
+        options = options or {}
+
+        data = {}
+        data['image'] = base64.b64encode(image).decode()
+
+        data.update(options)
+
+        return self._request(self.__vatInvoiceUrl, data)
+    
+    def qrcode(self, image, options=None):
+        """
+            二维码识别
+        """
+        options = options or {}
+
+        data = {}
+        data['image'] = base64.b64encode(image).decode()
+
+        data.update(options)
+
+        return self._request(self.__qrcodeUrl, data)
+    
+    def numbers(self, image, options=None):
+        """
+            数字识别
+        """
+        options = options or {}
+
+        data = {}
+        data['image'] = base64.b64encode(image).decode()
+
+        data.update(options)
+
+        return self._request(self.__numbersUrl, data)
+    
+    def lottery(self, image, options=None):
+        """
+            彩票识别
+        """
+        options = options or {}
+
+        data = {}
+        data['image'] = base64.b64encode(image).decode()
+
+        data.update(options)
+
+        return self._request(self.__lotteryUrl, data)
+    
+    def passport(self, image, options=None):
+        """
+            护照识别
+        """
+        options = options or {}
+
+        data = {}
+        data['image'] = base64.b64encode(image).decode()
+
+        data.update(options)
+
+        return self._request(self.__passportUrl, data)
+    
+    def businessCard(self, image, options=None):
+        """
+            名片识别
+        """
+        options = options or {}
+
+        data = {}
+        data['image'] = base64.b64encode(image).decode()
+
+        data.update(options)
+
+        return self._request(self.__businessCardUrl, data)
+    
+    def handwriting(self, image, options=None):
+        """
+            手写文字识别
+        """
+        options = options or {}
+
+        data = {}
+        data['image'] = base64.b64encode(image).decode()
+
+        data.update(options)
+
+        return self._request(self.__handwritingUrl, data)
+    
+    def custom(self, image, templateSign, options=None):
+        """
+            自定义模板文字识别
+        """
+        options = options or {}
+
+        data = {}
+        data['image'] = base64.b64encode(image).decode()
+        data['templateSign'] = templateSign
+
+        data.update(options)
+
+        return self._request(self.__customUrl, data)
     
     def tableRecognition(self, image, options=None, timeout=10000):
         """

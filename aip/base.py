@@ -48,7 +48,7 @@ class AipBase(object):
         self.__connectTimeout = 60.0
         self.__socketTimeout = 60.0
         self._proxies = {}
-        self.__version = '2_2_2'
+        self.__version = '2_2_3'
 
     def getVersion(self):
         """
@@ -269,3 +269,10 @@ class AipBase(object):
         data['feedback'] = feedback
 
         return self._request(self.__reportUrl, data)
+
+    def post(self, url, data, headers=None):
+        """
+            self.post('', {})
+        """
+
+        return self._request(url, data, headers)

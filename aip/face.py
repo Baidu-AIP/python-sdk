@@ -21,165 +21,209 @@ class AipFace(AipBase):
     人脸识别
     """
 
-    __detectUrl = 'https://aip.baidubce.com/rest/2.0/face/v2/detect'
+    __detectUrl = 'https://aip.baidubce.com/rest/2.0/face/v3/detect'
 
-    __matchUrl = 'https://aip.baidubce.com/rest/2.0/face/v2/match'
+    __searchUrl = 'https://aip.baidubce.com/rest/2.0/face/v3/search'
 
-    __identifyUrl = 'https://aip.baidubce.com/rest/2.0/face/v2/identify'
+    __userAddUrl = 'https://aip.baidubce.com/rest/2.0/face/v3/faceset/user/add'
 
-    __verifyUrl = 'https://aip.baidubce.com/rest/2.0/face/v2/verify'
+    __userUpdateUrl = 'https://aip.baidubce.com/rest/2.0/face/v3/faceset/user/update'
 
-    __multiIdentifyUrl = 'https://aip.baidubce.com/rest/2.0/face/v2/multi-identify'
+    __faceDeleteUrl = 'https://aip.baidubce.com/rest/2.0/face/v3/faceset/face/delete'
 
-    __userAddUrl = 'https://aip.baidubce.com/rest/2.0/face/v2/faceset/user/add'
+    __userGetUrl = 'https://aip.baidubce.com/rest/2.0/face/v3/faceset/user/get'
 
-    __userUpdateUrl = 'https://aip.baidubce.com/rest/2.0/face/v2/faceset/user/update'
+    __faceGetlistUrl = 'https://aip.baidubce.com/rest/2.0/face/v3/faceset/face/getlist'
 
-    __userDeleteUrl = 'https://aip.baidubce.com/rest/2.0/face/v2/faceset/user/delete'
+    __groupGetusersUrl = 'https://aip.baidubce.com/rest/2.0/face/v3/faceset/group/getusers'
 
-    __userGetUrl = 'https://aip.baidubce.com/rest/2.0/face/v2/faceset/user/get'
+    __userCopyUrl = 'https://aip.baidubce.com/rest/2.0/face/v3/faceset/user/copy'
 
-    __groupGetlistUrl = 'https://aip.baidubce.com/rest/2.0/face/v2/faceset/group/getlist'
+    __userDeleteUrl = 'https://aip.baidubce.com/rest/2.0/face/v3/faceset/user/delete'
 
-    __groupGetusersUrl = 'https://aip.baidubce.com/rest/2.0/face/v2/faceset/group/getusers'
+    __groupAddUrl = 'https://aip.baidubce.com/rest/2.0/face/v3/faceset/group/add'
 
-    __groupAdduserUrl = 'https://aip.baidubce.com/rest/2.0/face/v2/faceset/group/adduser'
+    __groupDeleteUrl = 'https://aip.baidubce.com/rest/2.0/face/v3/faceset/group/delete'
 
-    __groupDeleteuserUrl = 'https://aip.baidubce.com/rest/2.0/face/v2/faceset/group/deleteuser'
+    __groupGetlistUrl = 'https://aip.baidubce.com/rest/2.0/face/v3/faceset/group/getlist'
 
-    __personVerifyUrl = 'https://aip.baidubce.com/rest/2.0/face/v2/person/verify'
+    __personVerifyUrl = 'https://aip.baidubce.com/rest/2.0/face/v3/person/verify'
 
-    __faceverifyUrl = 'https://aip.baidubce.com/rest/2.0/face/v2/faceverify'
+    __faceverifyUrl = 'https://aip.baidubce.com/rest/2.0/face/v3/faceverify'
+
+    __videoSessioncodeUrl = 'https://aip.baidubce.com/rest/2.0/face/v1/faceliveness/sessioncode'
+
+    __videoFacelivenessUrl = 'https://aip.baidubce.com/rest/2.0/face/v1/faceliveness/verify'
 
     
-    def detect(self, image, options=None):
+    def detect(self, image, image_type, options=None):
         """
             人脸检测
         """
         options = options or {}
 
         data = {}
-        data['image'] = base64.b64encode(image).decode()
+        data['image'] = image
+        data['image_type'] = image_type
 
         data.update(options)
 
         return self._request(self.__detectUrl, data)
     
-    def match(self, images, options=None):
+    def search(self, image, image_type, options=None):
         """
-            人脸比对
-        """
-        options = options or {}
-
-        data = {}
-        data['images'] = ','.join([
-            base64.b64encode(image).decode() for image in images
-        ])
-
-        data.update(options)
-
-        return self._request(self.__matchUrl, data)
-    
-    def identifyUser(self, group_id, image, options=None):
-        """
-            人脸识别
+            人脸搜索
         """
         options = options or {}
 
         data = {}
-        data['group_id'] = group_id
-        data['image'] = base64.b64encode(image).decode()
+        data['image'] = image
+        data['image_type'] = image_type
 
         data.update(options)
 
-        return self._request(self.__identifyUrl, data)
+        return self._request(self.__searchUrl, data)
     
-    def verifyUser(self, uid, group_id, image, options=None):
-        """
-            人脸认证
-        """
-        options = options or {}
-
-        data = {}
-        data['uid'] = uid
-        data['group_id'] = group_id
-        data['image'] = base64.b64encode(image).decode()
-
-        data.update(options)
-
-        return self._request(self.__verifyUrl, data)
-    
-    def multiIdentify(self, group_id, image, options=None):
-        """
-            M:N 识别
-        """
-        options = options or {}
-
-        data = {}
-        data['group_id'] = group_id
-        data['image'] = base64.b64encode(image).decode()
-
-        data.update(options)
-
-        return self._request(self.__multiIdentifyUrl, data)
-    
-    def addUser(self, uid, user_info, group_id, image, options=None):
+    def addUser(self, image, image_type, group_id, user_id, options=None):
         """
             人脸注册
         """
         options = options or {}
 
         data = {}
-        data['uid'] = uid
-        data['user_info'] = user_info
+        data['image'] = image
+        data['image_type'] = image_type
         data['group_id'] = group_id
-        data['image'] = base64.b64encode(image).decode()
+        data['user_id'] = user_id
 
         data.update(options)
 
         return self._request(self.__userAddUrl, data)
     
-    def updateUser(self, uid, user_info, group_id, image, options=None):
+    def updateUser(self, image, image_type, group_id, user_id, options=None):
         """
             人脸更新
         """
         options = options or {}
 
         data = {}
-        data['uid'] = uid
-        data['user_info'] = user_info
+        data['image'] = image
+        data['image_type'] = image_type
         data['group_id'] = group_id
-        data['image'] = base64.b64encode(image).decode()
+        data['user_id'] = user_id
 
         data.update(options)
 
         return self._request(self.__userUpdateUrl, data)
     
-    def deleteUser(self, uid, options=None):
+    def faceDelete(self, user_id, group_id, face_token, options=None):
         """
             人脸删除
         """
         options = options or {}
 
         data = {}
-        data['uid'] = uid
+        data['user_id'] = user_id
+        data['group_id'] = group_id
+        data['face_token'] = face_token
 
         data.update(options)
 
-        return self._request(self.__userDeleteUrl, data)
+        return self._request(self.__faceDeleteUrl, data)
     
-    def getUser(self, uid, options=None):
+    def getUser(self, user_id, group_id, options=None):
         """
             用户信息查询
         """
         options = options or {}
 
         data = {}
-        data['uid'] = uid
+        data['user_id'] = user_id
+        data['group_id'] = group_id
 
         data.update(options)
 
         return self._request(self.__userGetUrl, data)
+    
+    def faceGetlist(self, user_id, group_id, options=None):
+        """
+            获取用户人脸列表
+        """
+        options = options or {}
+
+        data = {}
+        data['user_id'] = user_id
+        data['group_id'] = group_id
+
+        data.update(options)
+
+        return self._request(self.__faceGetlistUrl, data)
+    
+    def getGroupUsers(self, group_id, options=None):
+        """
+            获取用户列表
+        """
+        options = options or {}
+
+        data = {}
+        data['group_id'] = group_id
+
+        data.update(options)
+
+        return self._request(self.__groupGetusersUrl, data)
+    
+    def userCopy(self, user_id, options=None):
+        """
+            复制用户
+        """
+        options = options or {}
+
+        data = {}
+        data['user_id'] = user_id
+
+        data.update(options)
+
+        return self._request(self.__userCopyUrl, data)
+    
+    def deleteUser(self, group_id, user_id, options=None):
+        """
+            删除用户
+        """
+        options = options or {}
+
+        data = {}
+        data['group_id'] = group_id
+        data['user_id'] = user_id
+
+        data.update(options)
+
+        return self._request(self.__userDeleteUrl, data)
+    
+    def groupAdd(self, group_id, options=None):
+        """
+            创建用户组
+        """
+        options = options or {}
+
+        data = {}
+        data['group_id'] = group_id
+
+        data.update(options)
+
+        return self._request(self.__groupAddUrl, data)
+    
+    def groupDelete(self, group_id, options=None):
+        """
+            删除用户组
+        """
+        options = options or {}
+
+        data = {}
+        data['group_id'] = group_id
+
+        data.update(options)
+
+        return self._request(self.__groupDeleteUrl, data)
     
     def getGroupList(self, options=None):
         """
@@ -193,56 +237,15 @@ class AipFace(AipBase):
 
         return self._request(self.__groupGetlistUrl, data)
     
-    def getGroupUsers(self, group_id, options=None):
-        """
-            组内用户列表查询
-        """
-        options = options or {}
-
-        data = {}
-        data['group_id'] = group_id
-
-        data.update(options)
-
-        return self._request(self.__groupGetusersUrl, data)
-    
-    def addGroupUser(self, src_group_id, group_id, uid, options=None):
-        """
-            组间复制用户
-        """
-        options = options or {}
-
-        data = {}
-        data['src_group_id'] = src_group_id
-        data['group_id'] = group_id
-        data['uid'] = uid
-
-        data.update(options)
-
-        return self._request(self.__groupAdduserUrl, data)
-    
-    def deleteGroupUser(self, group_id, uid, options=None):
-        """
-            组内删除用户
-        """
-        options = options or {}
-
-        data = {}
-        data['group_id'] = group_id
-        data['uid'] = uid
-
-        data.update(options)
-
-        return self._request(self.__groupDeleteuserUrl, data)
-    
-    def personVerify(self, image, id_card_number, name, options=None):
+    def personVerify(self, image, image_type, id_card_number, name, options=None):
         """
             身份验证
         """
         options = options or {}
 
         data = {}
-        data['image'] = base64.b64encode(image).decode()
+        data['image'] = image
+        data['image_type'] = image_type
         data['id_card_number'] = id_card_number
         data['name'] = name
 
@@ -250,16 +253,54 @@ class AipFace(AipBase):
 
         return self._request(self.__personVerifyUrl, data)
     
-    def faceverify(self, image, options=None):
+    def faceverify(self, image, image_type, options=None):
         """
             在线活体检测
         """
         options = options or {}
 
         data = {}
-        data['image'] = base64.b64encode(image).decode()
+        data['image'] = image
+        data['image_type'] = image_type
 
         data.update(options)
 
         return self._request(self.__faceverifyUrl, data)
     
+    def videoSessioncode(self, options=None):
+        """
+            语音校验码接口
+        """
+        options = options or {}
+
+        data = {}
+
+        data.update(options)
+
+        return self._request(self.__videoSessioncodeUrl, data)
+    
+    def videoFaceliveness(self, session_id, video_base64, options=None):
+        """
+            视频活体检测接口
+        """
+        options = options or {}
+
+        data = {}
+        data['session_id'] = session_id
+        data['video_base64'] = video_base64
+
+        data.update(options)
+
+        return self._request(self.__videoFacelivenessUrl, data)
+    
+
+    __matchUrl = 'https://aip.baidubce.com/rest/2.0/face/v3/match'
+
+    def match(self, images):
+        """
+            人脸比对
+        """
+
+        return self._request(self.__matchUrl, json.dumps(images), {
+            'Content-Type': 'application/json',
+        })
