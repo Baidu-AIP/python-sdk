@@ -49,8 +49,6 @@ class AipFace(AipBase):
 
     __personVerifyUrl = 'https://aip.baidubce.com/rest/2.0/face/v3/person/verify'
 
-    __faceverifyUrl = 'https://aip.baidubce.com/rest/2.0/face/v3/faceverify'
-
     __videoSessioncodeUrl = 'https://aip.baidubce.com/rest/2.0/face/v1/faceliveness/sessioncode'
 
     __videoFacelivenessUrl = 'https://aip.baidubce.com/rest/2.0/face/v1/faceliveness/verify'
@@ -67,10 +65,11 @@ class AipFace(AipBase):
         data['image_type'] = image_type
 
         data.update(options)
-
-        return self._request(self.__detectUrl, data)
+        return self._request(self.__detectUrl, json.dumps(data, ensure_ascii=False), {
+            'Content-Type': 'application/json',
+        })
     
-    def search(self, image, image_type, options=None):
+    def search(self, image, image_type, group_id_list, options=None):
         """
             人脸搜索
         """
@@ -79,10 +78,12 @@ class AipFace(AipBase):
         data = {}
         data['image'] = image
         data['image_type'] = image_type
+        data['group_id_list'] = group_id_list
 
         data.update(options)
-
-        return self._request(self.__searchUrl, data)
+        return self._request(self.__searchUrl, json.dumps(data, ensure_ascii=False), {
+            'Content-Type': 'application/json',
+        })
     
     def addUser(self, image, image_type, group_id, user_id, options=None):
         """
@@ -97,8 +98,9 @@ class AipFace(AipBase):
         data['user_id'] = user_id
 
         data.update(options)
-
-        return self._request(self.__userAddUrl, data)
+        return self._request(self.__userAddUrl, json.dumps(data, ensure_ascii=False), {
+            'Content-Type': 'application/json',
+        })
     
     def updateUser(self, image, image_type, group_id, user_id, options=None):
         """
@@ -113,8 +115,9 @@ class AipFace(AipBase):
         data['user_id'] = user_id
 
         data.update(options)
-
-        return self._request(self.__userUpdateUrl, data)
+        return self._request(self.__userUpdateUrl, json.dumps(data, ensure_ascii=False), {
+            'Content-Type': 'application/json',
+        })
     
     def faceDelete(self, user_id, group_id, face_token, options=None):
         """
@@ -128,8 +131,9 @@ class AipFace(AipBase):
         data['face_token'] = face_token
 
         data.update(options)
-
-        return self._request(self.__faceDeleteUrl, data)
+        return self._request(self.__faceDeleteUrl, json.dumps(data, ensure_ascii=False), {
+            'Content-Type': 'application/json',
+        })
     
     def getUser(self, user_id, group_id, options=None):
         """
@@ -142,8 +146,9 @@ class AipFace(AipBase):
         data['group_id'] = group_id
 
         data.update(options)
-
-        return self._request(self.__userGetUrl, data)
+        return self._request(self.__userGetUrl, json.dumps(data, ensure_ascii=False), {
+            'Content-Type': 'application/json',
+        })
     
     def faceGetlist(self, user_id, group_id, options=None):
         """
@@ -156,8 +161,9 @@ class AipFace(AipBase):
         data['group_id'] = group_id
 
         data.update(options)
-
-        return self._request(self.__faceGetlistUrl, data)
+        return self._request(self.__faceGetlistUrl, json.dumps(data, ensure_ascii=False), {
+            'Content-Type': 'application/json',
+        })
     
     def getGroupUsers(self, group_id, options=None):
         """
@@ -169,8 +175,9 @@ class AipFace(AipBase):
         data['group_id'] = group_id
 
         data.update(options)
-
-        return self._request(self.__groupGetusersUrl, data)
+        return self._request(self.__groupGetusersUrl, json.dumps(data, ensure_ascii=False), {
+            'Content-Type': 'application/json',
+        })
     
     def userCopy(self, user_id, options=None):
         """
@@ -182,8 +189,9 @@ class AipFace(AipBase):
         data['user_id'] = user_id
 
         data.update(options)
-
-        return self._request(self.__userCopyUrl, data)
+        return self._request(self.__userCopyUrl, json.dumps(data, ensure_ascii=False), {
+            'Content-Type': 'application/json',
+        })
     
     def deleteUser(self, group_id, user_id, options=None):
         """
@@ -196,8 +204,9 @@ class AipFace(AipBase):
         data['user_id'] = user_id
 
         data.update(options)
-
-        return self._request(self.__userDeleteUrl, data)
+        return self._request(self.__userDeleteUrl, json.dumps(data, ensure_ascii=False), {
+            'Content-Type': 'application/json',
+        })
     
     def groupAdd(self, group_id, options=None):
         """
@@ -209,8 +218,9 @@ class AipFace(AipBase):
         data['group_id'] = group_id
 
         data.update(options)
-
-        return self._request(self.__groupAddUrl, data)
+        return self._request(self.__groupAddUrl, json.dumps(data, ensure_ascii=False), {
+            'Content-Type': 'application/json',
+        })
     
     def groupDelete(self, group_id, options=None):
         """
@@ -222,8 +232,9 @@ class AipFace(AipBase):
         data['group_id'] = group_id
 
         data.update(options)
-
-        return self._request(self.__groupDeleteUrl, data)
+        return self._request(self.__groupDeleteUrl, json.dumps(data, ensure_ascii=False), {
+            'Content-Type': 'application/json',
+        })
     
     def getGroupList(self, options=None):
         """
@@ -234,8 +245,9 @@ class AipFace(AipBase):
         data = {}
 
         data.update(options)
-
-        return self._request(self.__groupGetlistUrl, data)
+        return self._request(self.__groupGetlistUrl, json.dumps(data, ensure_ascii=False), {
+            'Content-Type': 'application/json',
+        })
     
     def personVerify(self, image, image_type, id_card_number, name, options=None):
         """
@@ -250,22 +262,9 @@ class AipFace(AipBase):
         data['name'] = name
 
         data.update(options)
-
-        return self._request(self.__personVerifyUrl, data)
-    
-    def faceverify(self, image, image_type, options=None):
-        """
-            在线活体检测
-        """
-        options = options or {}
-
-        data = {}
-        data['image'] = image
-        data['image_type'] = image_type
-
-        data.update(options)
-
-        return self._request(self.__faceverifyUrl, data)
+        return self._request(self.__personVerifyUrl, json.dumps(data, ensure_ascii=False), {
+            'Content-Type': 'application/json',
+        })
     
     def videoSessioncode(self, options=None):
         """
@@ -276,8 +275,9 @@ class AipFace(AipBase):
         data = {}
 
         data.update(options)
-
-        return self._request(self.__videoSessioncodeUrl, data)
+        return self._request(self.__videoSessioncodeUrl, json.dumps(data, ensure_ascii=False), {
+            'Content-Type': 'application/json',
+        })
     
     def videoFaceliveness(self, session_id, video_base64, options=None):
         """
@@ -290,9 +290,21 @@ class AipFace(AipBase):
         data['video_base64'] = video_base64
 
         data.update(options)
-
-        return self._request(self.__videoFacelivenessUrl, data)
+        return self._request(self.__videoFacelivenessUrl, json.dumps(data, ensure_ascii=False), {
+            'Content-Type': 'application/json',
+        })
     
+
+    __faceverifyUrl = 'https://aip.baidubce.com/rest/2.0/face/v3/faceverify'
+
+    def faceverify(self, images):
+        """
+            在线活体检测
+        """
+
+        return self._request(self.__faceverifyUrl, json.dumps(images, ensure_ascii=False), {
+            'Content-Type': 'application/json',
+        })
 
     __matchUrl = 'https://aip.baidubce.com/rest/2.0/face/v3/match'
 
@@ -301,6 +313,6 @@ class AipFace(AipBase):
             人脸比对
         """
 
-        return self._request(self.__matchUrl, json.dumps(images), {
+        return self._request(self.__matchUrl, json.dumps(images, ensure_ascii=False), {
             'Content-Type': 'application/json',
         })
