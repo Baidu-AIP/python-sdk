@@ -43,6 +43,10 @@ class AipNlp(AipBase):
 
     __topicUrl = 'https://aip.baidubce.com/rpc/2.0/nlp/v1/topic'
 
+    __ecnetUrl = 'https://aip.baidubce.com/rpc/2.0/nlp/v1/ecnet'
+
+    __emotionUrl = 'https://aip.baidubce.com/rpc/2.0/nlp/v1/emotion'
+
     def _proccessResult(self, content):
         """
             formate result
@@ -209,4 +213,30 @@ class AipNlp(AipBase):
         data.update(options)
 
         return self._request(self.__topicUrl, data)
+    
+    def ecnet(self, text, options=None):
+        """
+            文本纠错
+        """
+        options = options or {}
+
+        data = {}
+        data['text'] = text
+
+        data.update(options)
+
+        return self._request(self.__ecnetUrl, data)
+    
+    def emotion(self, text, options=None):
+        """
+            对话情绪识别接口
+        """
+        options = options or {}
+
+        data = {}
+        data['text'] = text
+
+        data.update(options)
+
+        return self._request(self.__emotionUrl, data)
     

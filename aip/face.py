@@ -51,8 +51,6 @@ class AipFace(AipBase):
 
     __videoSessioncodeUrl = 'https://aip.baidubce.com/rest/2.0/face/v1/faceliveness/sessioncode'
 
-    __videoFacelivenessUrl = 'https://aip.baidubce.com/rest/2.0/face/v1/faceliveness/verify'
-
     
     def detect(self, image, image_type, options=None):
         """
@@ -276,21 +274,6 @@ class AipFace(AipBase):
 
         data.update(options)
         return self._request(self.__videoSessioncodeUrl, json.dumps(data, ensure_ascii=False), {
-            'Content-Type': 'application/json',
-        })
-    
-    def videoFaceliveness(self, session_id, video_base64, options=None):
-        """
-            视频活体检测接口
-        """
-        options = options or {}
-
-        data = {}
-        data['session_id'] = session_id
-        data['video_base64'] = video_base64
-
-        data.update(options)
-        return self._request(self.__videoFacelivenessUrl, json.dumps(data, ensure_ascii=False), {
             'Content-Type': 'application/json',
         })
     

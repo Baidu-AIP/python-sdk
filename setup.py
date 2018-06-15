@@ -9,7 +9,7 @@ from setuptools import setup
 
 setup(
     name = 'baidu-aip',
-    version = '2.2.4.0',
+    version = '2.2.5.1',
     packages = [
         'aip',
     ],
