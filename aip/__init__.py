@@ -12,3 +12,4 @@ from .kg import AipKg
 from .speech import AipSpeech
 from .imageclassify import AipImageClassify
 from .imagesearch import AipImageSearch
+from .bodyanalysis import AipBodyAnalysis
