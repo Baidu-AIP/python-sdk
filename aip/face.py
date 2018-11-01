@@ -50,6 +50,8 @@ class AipFace(AipBase):
     __personVerifyUrl = 'https://aip.baidubce.com/rest/2.0/face/v3/person/verify'
 
     __videoSessioncodeUrl = 'https://aip.baidubce.com/rest/2.0/face/v1/faceliveness/sessioncode'
+    
+    __multisearchUrl = 'https://aip.baidubce.com/rest/2.0/face/v3/multi-search'
 
     
     def detect(self, image, image_type, options=None):
@@ -80,6 +82,22 @@ class AipFace(AipBase):
 
         data.update(options)
         return self._request(self.__searchUrl, json.dumps(data, ensure_ascii=False), {
+            'Content-Type': 'application/json',
+        })
+    
+    def multisearch(self, image, image_type, group_id_list, options=None):
+        """
+            M:N人脸搜索
+        """
+        options = options or {}
+
+        data = {}
+        data['image'] = image
+        data['image_type'] = image_type
+        data['group_id_list'] = group_id_list
+
+        data.update(options)
+        return self._request(self.__multisearchUrl, json.dumps(data, ensure_ascii=False), {
             'Content-Type': 'application/json',
         })
     
