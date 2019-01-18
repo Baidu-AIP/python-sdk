@@ -48,7 +48,7 @@ class AipBase(object):
         self.__connectTimeout = 60.0
         self.__socketTimeout = 60.0
         self._proxies = {}
-        self.__version = '2_2_5'
+        self.__version = '2_2_11'
 
     def getVersion(self):
         """
@@ -87,11 +87,11 @@ class AipBase(object):
                 return result
 
             authObj = self._auth()
-            params = self._getParams(authObj)            
+            params = self._getParams(authObj)
 
             data = self._proccessRequest(url, params, data, headers)
             headers = self._getAuthHeaders('POST', url, params, headers)
-            response = self.__client.post(url, data=data, params=params, 
+            response = self.__client.post(url, data=data, params=params,
                             headers=headers, verify=False, timeout=(
                                 self.__connectTimeout,
                                 self.__socketTimeout,
@@ -102,7 +102,7 @@ class AipBase(object):
             if not self._isCloudUser and obj.get('error_code', '') == 110:
                 authObj = self._auth(True)
                 params = self._getParams(authObj)
-                response = self.__client.post(url, data=data, params=params, 
+                response = self.__client.post(url, data=data, params=params,
                                 headers=headers, verify=False, timeout=(
                                     self.__connectTimeout,
                                     self.__socketTimeout,
@@ -114,7 +114,7 @@ class AipBase(object):
                 'error_code': 'SDK108',
                 'error_msg': 'connection or read data timeout',
             }
- 
+
         return obj
 
     def _validate(self, url, data):
@@ -130,7 +130,7 @@ class AipBase(object):
         """
 
         params['aipSdk'] = 'python'
-        params['aipVersion'] = self.__version 
+        params['aipVersion'] = self.__version
 
         return data
 
@@ -175,7 +175,7 @@ class AipBase(object):
             check whether permission
         """
 
-        scopes = authObj.get('scope', '') 
+        scopes = authObj.get('scope', '')
 
         return self.__scope in scopes.split(' ')
 
@@ -225,12 +225,12 @@ class AipBase(object):
         canonicalUri = quote(urlResult.path)
         # 2.2 Generate CanonicalURI: not used here
         # 2.3 Generate CanonicalHeaders: only include host here
-        
+
         canonicalHeaders = []
         for header, val in headers.items():
             canonicalHeaders.append(
                 '%s:%s' % (
-                    quote(header.strip(), '').lower(), 
+                    quote(header.strip(), '').lower(),
                     quote(val.strip(), '')
                 )
             )
@@ -244,7 +244,7 @@ class AipBase(object):
             canonicalHeaders
         )
 
-        # 3 Generate Final Signature 
+        # 3 Generate Final Signature
         signature = hmac.new(signingKey.encode('utf-8'), canonicalRequest.encode('utf-8'),
                         hashlib.sha256
                     ).hexdigest()
@@ -253,7 +253,7 @@ class AipBase(object):
             version,
             self._apiKey,
             timestamp,
-            expire, 
+            expire,
             ';'.join(headers.keys()).lower(),
             signature
         )

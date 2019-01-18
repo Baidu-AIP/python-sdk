@@ -47,6 +47,8 @@ class AipNlp(AipBase):
 
     __emotionUrl = 'https://aip.baidubce.com/rpc/2.0/nlp/v1/emotion'
 
+    __newsSummaryUrl = 'https://aip.baidubce.com/rpc/2.0/nlp/v1/news_summary'
+
     def _proccessResult(self, content):
         """
             formate result
@@ -239,4 +241,18 @@ class AipNlp(AipBase):
         data.update(options)
 
         return self._request(self.__emotionUrl, data)
+    
+    def newsSummary(self, content, max_summary_len, options=None):
+        """
+            新闻摘要接口
+        """
+        options = options or {}
+
+        data = {}
+        data['content'] = content
+        data['max_summary_len'] = max_summary_len
+
+        data.update(options)
+
+        return self._request(self.__newsSummaryUrl, data)
     

@@ -26,6 +26,10 @@ class AipBodyAnalysis(AipBase):
 
     __bodyNumUrl = 'https://aip.baidubce.com/rest/2.0/image-classify/v1/body_num'
 
+    __gestureUrl = 'https://aip.baidubce.com/rest/2.0/image-classify/v1/gesture'
+
+    __bodySegUrl = 'https://aip.baidubce.com/rest/2.0/image-classify/v1/body_seg'
+
     
     def bodyAnalysis(self, image, options=None):
         """
@@ -65,4 +69,30 @@ class AipBodyAnalysis(AipBase):
         data.update(options)
 
         return self._request(self.__bodyNumUrl, data)
+    
+    def gesture(self, image, options=None):
+        """
+            手势识别
+        """
+        options = options or {}
+
+        data = {}
+        data['image'] = base64.b64encode(image).decode()
+
+        data.update(options)
+
+        return self._request(self.__gestureUrl, data)
+    
+    def bodySeg(self, image, options=None):
+        """
+            人像分割
+        """
+        options = options or {}
+
+        data = {}
+        data['image'] = base64.b64encode(image).decode()
+
+        data.update(options)
+
+        return self._request(self.__bodySegUrl, data)
     

@@ -47,6 +47,10 @@ class AipOcr(AipBase):
 
     __receiptUrl = 'https://aip.baidubce.com/rest/2.0/ocr/v1/receipt'
 
+    __trainTicketUrl = 'https://aip.baidubce.com/rest/2.0/ocr/v1/train_ticket'
+
+    __taxiReceiptUrl = 'https://aip.baidubce.com/rest/2.0/ocr/v1/taxi_receipt'
+
     __formUrl = 'https://aip.baidubce.com/rest/2.0/ocr/v1/form'
 
     __tableRecognizeUrl = 'https://aip.baidubce.com/rest/2.0/solution/v1/form_ocr/request'
@@ -291,6 +295,32 @@ class AipOcr(AipBase):
         data.update(options)
 
         return self._request(self.__receiptUrl, data)
+    
+    def trainTicket(self, image, options=None):
+        """
+            火车票识别
+        """
+        options = options or {}
+
+        data = {}
+        data['image'] = base64.b64encode(image).decode()
+
+        data.update(options)
+
+        return self._request(self.__trainTicketUrl, data)
+    
+    def taxiReceipt(self, image, options=None):
+        """
+            出租车票识别
+        """
+        options = options or {}
+
+        data = {}
+        data['image'] = base64.b64encode(image).decode()
+
+        data.update(options)
+
+        return self._request(self.__taxiReceiptUrl, data)
     
     def form(self, image, options=None):
         """

@@ -39,6 +39,8 @@ class AipImageClassify(AipBase):
 
     __objectDetectUrl = 'https://aip.baidubce.com/rest/2.0/image-classify/v1/object_detect'
 
+    __landmarkUrl = 'https://aip.baidubce.com/rest/2.0/image-classify/v1/landmark'
+
     
     def advancedGeneral(self, image, options=None):
         """
@@ -170,4 +172,17 @@ class AipImageClassify(AipBase):
         data.update(options)
 
         return self._request(self.__objectDetectUrl, data)
+    
+    def landmark(self, image, options=None):
+        """
+            地标识别
+        """
+        options = options or {}
+
+        data = {}
+        data['image'] = base64.b64encode(image).decode()
+
+        data.update(options)
+
+        return self._request(self.__landmarkUrl, data)
     
