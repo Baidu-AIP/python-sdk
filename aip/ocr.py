@@ -452,7 +452,7 @@ class AipOcr(AipBase):
 
         return self._request(self.__handwritingUrl, data)
     
-    def custom(self, image, templateSign, options=None):
+    def custom(self, image, options=None):
         """
             自定义模板文字识别
         """
@@ -460,7 +460,6 @@ class AipOcr(AipBase):
 
         data = {}
         data['image'] = base64.b64encode(image).decode()
-        data['templateSign'] = templateSign
 
         data.update(options)
 

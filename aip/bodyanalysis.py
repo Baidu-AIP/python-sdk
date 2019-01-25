@@ -30,6 +30,8 @@ class AipBodyAnalysis(AipBase):
 
     __bodySegUrl = 'https://aip.baidubce.com/rest/2.0/image-classify/v1/body_seg'
 
+    __bodyTrackingUrl = 'https://aip.baidubce.com/rest/2.0/image-classify/v1/body_tracking'
+
     
     def bodyAnalysis(self, image, options=None):
         """
@@ -95,4 +97,18 @@ class AipBodyAnalysis(AipBase):
         data.update(options)
 
         return self._request(self.__bodySegUrl, data)
+    
+    def bodyTracking(self, image, dynamic, options=None):
+        """
+            人流量统计-动态版
+        """
+        options = options or {}
+
+        data = {}
+        data['image'] = base64.b64encode(image).decode()
+        data['dynamic'] = dynamic
+
+        data.update(options)
+
+        return self._request(self.__bodyTrackingUrl, data)
     
