@@ -30,6 +30,8 @@ class AipBodyAnalysis(AipBase):
 
     __bodySegUrl = 'https://aip.baidubce.com/rest/2.0/image-classify/v1/body_seg'
 
+    __driverBehaviorUrl = 'https://aip.baidubce.com/rest/2.0/image-classify/v1/driver_behavior'
+
     __bodyTrackingUrl = 'https://aip.baidubce.com/rest/2.0/image-classify/v1/body_tracking'
 
     
@@ -48,7 +50,7 @@ class AipBodyAnalysis(AipBase):
     
     def bodyAttr(self, image, options=None):
         """
-            人体属性识别
+            人体检测与属性识别
         """
         options = options or {}
 
@@ -97,6 +99,19 @@ class AipBodyAnalysis(AipBase):
         data.update(options)
 
         return self._request(self.__bodySegUrl, data)
+    
+    def driverBehavior(self, image, options=None):
+        """
+            驾驶行为分析
+        """
+        options = options or {}
+
+        data = {}
+        data['image'] = base64.b64encode(image).decode()
+
+        data.update(options)
+
+        return self._request(self.__driverBehaviorUrl, data)
     
     def bodyTracking(self, image, dynamic, options=None):
         """
