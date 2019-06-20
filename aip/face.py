@@ -25,6 +25,8 @@ class AipFace(AipBase):
 
     __searchUrl = 'https://aip.baidubce.com/rest/2.0/face/v3/search'
 
+    __multiSearchUrl = 'https://aip.baidubce.com/rest/2.0/face/v3/multi-search'
+
     __userAddUrl = 'https://aip.baidubce.com/rest/2.0/face/v3/faceset/user/add'
 
     __userUpdateUrl = 'https://aip.baidubce.com/rest/2.0/face/v3/faceset/user/update'
@@ -80,6 +82,22 @@ class AipFace(AipBase):
 
         data.update(options)
         return self._request(self.__searchUrl, json.dumps(data, ensure_ascii=False), {
+            'Content-Type': 'application/json',
+        })
+    
+    def multiSearch(self, image, image_type, group_id_list, options=None):
+        """
+            人脸搜索 M:N 识别
+        """
+        options = options or {}
+
+        data = {}
+        data['image'] = image
+        data['image_type'] = image_type
+        data['group_id_list'] = group_id_list
+
+        data.update(options)
+        return self._request(self.__multiSearchUrl, json.dumps(data, ensure_ascii=False), {
             'Content-Type': 'application/json',
         })
     

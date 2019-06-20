@@ -23,7 +23,9 @@ class AipImageCensor(AipBase):
     
     __imageCensorCombUrl = 'https://aip.baidubce.com/api/v1/solution/direct/img_censor'
 
-    __imageCensorUserDefinedUrl = 'https://aip.baidubce.com/rest/2.0/solution/v1/img_censor/user_defined'
+    __imageCensorUserDefinedUrl = 'https://aip.baidubce.com/rest/2.0/solution/v1/img_censor/v2/user_defined'
+    
+    __textCensorUserDefinedUrl = 'https://aip.baidubce.com/rest/2.0/solution/v1/text_censor/v2/user_defined'
 
     __antiSpamUrl = 'https://aip.baidubce.com/rest/2.0/antispam/v2/spam'
     
@@ -122,6 +124,17 @@ class AipImageCensor(AipBase):
             data['imgUrl'] = image
 
         return self._request(self.__imageCensorUserDefinedUrl, data)
+
+    def textCensorUserDefined(self, text):
+        """
+            textCensorUserDefined
+        """
+        
+        data = {}
+
+        data['text'] = text
+
+        return self._request(self.__textCensorUserDefinedUrl, data)
 
     def antiSpam(self, content, options=None):
         """

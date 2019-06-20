@@ -57,6 +57,28 @@ class AipOcr(AipBase):
 
     __tableResultGetUrl = 'https://aip.baidubce.com/rest/2.0/solution/v1/form_ocr/get_request_result'
 
+    __vinCodeUrl = 'https://aip.baidubce.com/rest/2.0/ocr/v1/vin_code'
+
+    __quotaInvoiceUrl = 'https://aip.baidubce.com/rest/2.0/ocr/v1/quota_invoice'
+
+    __householdRegisterUrl = 'https://aip.baidubce.com/rest/2.0/ocr/v1/household_register'
+
+    __HKMacauExitentrypermitUrl = 'https://aip.baidubce.com/rest/2.0/ocr/v1/HK_Macau_exitentrypermit'
+
+    __taiwanExitentrypermitUrl = 'https://aip.baidubce.com/rest/2.0/ocr/v1/taiwan_exitentrypermit'
+
+    __birthCertificateUrl = 'https://aip.baidubce.com/rest/2.0/ocr/v1/birth_certificate'
+
+    __vehicleInvoiceUrl = 'https://aip.baidubce.com/rest/2.0/ocr/v1/vehicle_invoice'
+
+    __vehicleCertificateUrl = 'https://aip.baidubce.com/rest/2.0/ocr/v1/vehicle_certificate'
+
+    __invoiceUrl = 'https://aip.baidubce.com/rest/2.0/ocr/v1/invoice'
+
+    __airTicketUrl = 'https://aip.baidubce.com/rest/2.0/ocr/v1/air_ticket'
+
+    __insuranceDocumentsUrl = 'https://aip.baidubce.com/rest/2.0/ocr/v1/insurance_documents'
+
     __vatInvoiceUrl = 'https://aip.baidubce.com/rest/2.0/ocr/v1/vat_invoice'
 
     __qrcodeUrl = 'https://aip.baidubce.com/rest/2.0/ocr/v1/qrcode'
@@ -360,6 +382,149 @@ class AipOcr(AipBase):
         data.update(options)
 
         return self._request(self.__tableResultGetUrl, data)
+    
+    def vinCode(self, image, options=None):
+        """
+            VIN码识别
+        """
+        options = options or {}
+
+        data = {}
+        data['image'] = base64.b64encode(image).decode()
+
+        data.update(options)
+
+        return self._request(self.__vinCodeUrl, data)
+    
+    def quotaInvoice(self, image, options=None):
+        """
+            定额发票识别
+        """
+        options = options or {}
+
+        data = {}
+        data['image'] = base64.b64encode(image).decode()
+
+        data.update(options)
+
+        return self._request(self.__quotaInvoiceUrl, data)
+    
+    def householdRegister(self, image, options=None):
+        """
+            户口本识别
+        """
+        options = options or {}
+
+        data = {}
+        data['image'] = base64.b64encode(image).decode()
+
+        data.update(options)
+
+        return self._request(self.__householdRegisterUrl, data)
+    
+    def HKMacauExitentrypermit(self, image, options=None):
+        """
+            港澳通行证识别
+        """
+        options = options or {}
+
+        data = {}
+        data['image'] = base64.b64encode(image).decode()
+
+        data.update(options)
+
+        return self._request(self.__HKMacauExitentrypermitUrl, data)
+    
+    def taiwanExitentrypermit(self, image, options=None):
+        """
+            台湾通行证识别
+        """
+        options = options or {}
+
+        data = {}
+        data['image'] = base64.b64encode(image).decode()
+
+        data.update(options)
+
+        return self._request(self.__taiwanExitentrypermitUrl, data)
+    
+    def birthCertificate(self, image, options=None):
+        """
+            出生医学证明识别
+        """
+        options = options or {}
+
+        data = {}
+        data['image'] = base64.b64encode(image).decode()
+
+        data.update(options)
+
+        return self._request(self.__birthCertificateUrl, data)
+    
+    def vehicleInvoice(self, image, options=None):
+        """
+            机动车销售发票识别
+        """
+        options = options or {}
+
+        data = {}
+        data['image'] = base64.b64encode(image).decode()
+
+        data.update(options)
+
+        return self._request(self.__vehicleInvoiceUrl, data)
+    
+    def vehicleCertificate(self, image, options=None):
+        """
+            车辆合格证识别
+        """
+        options = options or {}
+
+        data = {}
+        data['image'] = base64.b64encode(image).decode()
+
+        data.update(options)
+
+        return self._request(self.__vehicleCertificateUrl, data)
+    
+    def invoice(self, image, options=None):
+        """
+            税务局通用机打发票识别
+        """
+        options = options or {}
+
+        data = {}
+        data['image'] = base64.b64encode(image).decode()
+
+        data.update(options)
+
+        return self._request(self.__invoiceUrl, data)
+    
+    def airTicket(self, image, options=None):
+        """
+            行程单识别
+        """
+        options = options or {}
+
+        data = {}
+        data['image'] = base64.b64encode(image).decode()
+
+        data.update(options)
+
+        return self._request(self.__airTicketUrl, data)
+    
+    def insuranceDocuments(self, image, options=None):
+        """
+            保单识别
+        """
+        options = options or {}
+
+        data = {}
+        data['image'] = base64.b64encode(image).decode()
+
+        data.update(options)
+
+        return self._request(self.__insuranceDocumentsUrl, data)
     
     def vatInvoice(self, image, options=None):
         """
