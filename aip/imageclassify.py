@@ -41,6 +41,14 @@ class AipImageClassify(AipBase):
 
     __landmarkUrl = 'https://aip.baidubce.com/rest/2.0/image-classify/v1/landmark'
 
+    __flowerUrl = 'https://aip.baidubce.com/rest/2.0/image-classify/v1/flower'
+
+    __ingredientUrl = 'https://aip.baidubce.com/rest/2.0/image-classify/v1/classify/ingredient'
+
+    __redwineUrl = 'https://aip.baidubce.com/rest/2.0/image-classify/v1/redwine'
+
+    __currencyUrl = 'https://aip.baidubce.com/rest/2.0/image-classify/v1/currency'
+
     
     def advancedGeneral(self, image, options=None):
         """
@@ -185,4 +193,56 @@ class AipImageClassify(AipBase):
         data.update(options)
 
         return self._request(self.__landmarkUrl, data)
+    
+    def flower(self, image, options=None):
+        """
+            花卉识别
+        """
+        options = options or {}
+
+        data = {}
+        data['image'] = base64.b64encode(image).decode()
+
+        data.update(options)
+
+        return self._request(self.__flowerUrl, data)
+    
+    def ingredient(self, image, options=None):
+        """
+            食材识别
+        """
+        options = options or {}
+
+        data = {}
+        data['image'] = base64.b64encode(image).decode()
+
+        data.update(options)
+
+        return self._request(self.__ingredientUrl, data)
+    
+    def redwine(self, image, options=None):
+        """
+            红酒识别
+        """
+        options = options or {}
+
+        data = {}
+        data['image'] = base64.b64encode(image).decode()
+
+        data.update(options)
+
+        return self._request(self.__redwineUrl, data)
+    
+    def currency(self, image, options=None):
+        """
+            货币识别
+        """
+        options = options or {}
+
+        data = {}
+        data['image'] = base64.b64encode(image).decode()
+
+        data.update(options)
+
+        return self._request(self.__currencyUrl, data)
     
