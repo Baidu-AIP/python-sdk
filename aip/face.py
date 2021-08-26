@@ -278,7 +278,7 @@ class AipFace(AipBase):
         data['name'] = name
 
         data.update(options)
-        return self._request(self.__personVerifyUrl, json.dumps(data, ensure_ascii=False), {
+        return self._request(self.__personVerifyUrl, json.dumps(data, ensure_ascii=False).encode('utf-8'), {
             'Content-Type': 'application/json',
         })
     
